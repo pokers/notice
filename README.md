@@ -91,17 +91,17 @@ npm run bundle -> Build a single file source code to /dist/app.js
 ## Basic Response Format
 **JSON Format would be return.**
 ### Article Response
-```
+```json
 {
     "success": Boolean,
     "data": [{
-        id: number,
-        title: string,
-        content: string,
-        username: string,
-        passwd: string,
-        createdAt: string,
-        updatedAt: string
+        "id": number,
+        "title": string,
+        "content": string,
+        "username": string,
+        "passwd": string,
+        "createdAt": string,
+        "updatedAt": string
     }]
     "pageInfo":{
         "pageSize": number
@@ -150,13 +150,13 @@ npm run bundle -> Build a single file source code to /dist/app.js
 {
     "success": Boolean,
     "data": [{
-        id: number,
-        articleId: number,
-        parentId: number,
-        content: string,
-        username: string,
-        createdAt: string,
-        child: Array
+        "id": number,
+        "articleId": number,
+        "parentId": number,
+        "content": string,
+        "username": string,
+        "createdAt": string,
+        "child": Array
     }]
     "pageInfo":{
         "pageSize": number
