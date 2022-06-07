@@ -90,6 +90,8 @@ npm run bundle -> Build a single file source code to /dist/app.js
 
 ## Basic Response Format
 **JSON Format would be return.**
+
+
 ### Article Response
 ```json
 {
