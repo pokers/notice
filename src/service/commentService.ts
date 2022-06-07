@@ -5,7 +5,8 @@ import { CommentModel, Transaction } from '../repository/model'
 import { 
     ErrorModuleNotFound,
     ErrorInvalidBodyParameter,
-    ErrorItemNotFound
+    ErrorItemNotFound,
+    ErrorNotMatchedArticle
  } from '../lib/error'
 
 class CommentService extends ServiceBase{
@@ -85,9 +86,27 @@ class CommentService extends ServiceBase{
             };
             log.info('addComment> queryInput : ', queryInput);
             // get data
-            const article = await noticeRepo.getArticleById(parseInt(articleId));
+            const dataTasks = [];
+            // const article = await noticeRepo.getArticleById(parseInt(articleId));
+            // if(article === null){
+            //     throw ErrorItemNotFound();
+            // }
+            // if(parentId){
+            //     const comment = await noticeRepo.getCommentById(parseInt(parentId));
+            //     if(comment === null){
+            //         throw ErrorItemNotFound();
+            //     }
+            // }
+            dataTasks.push(await noticeRepo.getArticleById(parseInt(articleId)));
+            if(parentId){
+                dataTasks.push(await noticeRepo.getCommentById(parseInt(parentId)));
+            }
+            const [article, comment] = await Promise.all(dataTasks);
             if(article === null){
                 throw ErrorItemNotFound();
+            }
+            if(comment && article.id !== (comment as CommentModel).articleId){
+                throw ErrorNotMatchedArticle();
             }
             
             transaction = await noticeRepo.startTransaction();

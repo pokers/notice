@@ -197,6 +197,22 @@ class NoticeRepository {
         }
     }
 
+    async getCommentById(commentId:number):Promise<CommentModel|null>{
+        try{
+            let where: WhereOptions = {
+                id:commentId
+            };
+            const commentModel = this.models.getModel(ModelName.comment);
+            const result:CommentModel = await commentModel.findOne({
+                where,
+            });
+            return result;
+        }catch(e){
+            log.error('exception> updateArticle : ', e);
+            throw e;
+        }
+    }
+
     async addComment(query: QueryInput):Promise<CommentModel>{
         try{
             log.info('insert info : ', query);

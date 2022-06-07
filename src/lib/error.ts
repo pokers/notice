@@ -17,7 +17,8 @@ export enum ErrMessage {
     ErrorItemNotFound = 'Could not find item',
     ErrorInvalidString = 'Invalid String, it might be zero length',
     ErrorExceedStringLength = 'Invalid String, it might be longer string than maxium length',
-    ErrorInvalidPageInfo = 'Invalid page number or size.'
+    ErrorInvalidPageInfo = 'Invalid page number or size.',
+    ErrorNotMatchedArticle = 'Invalid parent comment ID or article ID'
 }
 
 export const ErrorNotSupportedParameters = ()=>{
@@ -48,4 +49,7 @@ export const ErrorExceedStringLength = ()=>{
 }
 export const ErrorInvalidPageInfo = ()=>{
     return new cError(400, ErrMessage.ErrorInvalidPageInfo);
+}
+export const ErrorNotMatchedArticle = ()=>{
+    return new cError(400, ErrMessage.ErrorNotMatchedArticle);
 }
