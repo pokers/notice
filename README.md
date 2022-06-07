@@ -83,3 +83,7 @@ npm test
 ```
 npm run bundle -> Build a single file source code to /dist/app.js
 ```
+
+# API Test
+## Postman test
+[API Test Link](https://documenter.getpostman.com/view/7756251/Uz5JHb85#21c5a2bc-4b6d-40ab-82ce-a02caed9b103)
