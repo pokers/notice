@@ -4,9 +4,15 @@ import { serviceProvider } from '../service/serviceProvider';
 import { Services, ArticleConnection, ArticleQuery } from '../type'
 import { cError } from '../lib/error'
 import { STATUS_CODES } from 'http';
+import { Debugger } from '../lib/debugger'
 
 const getArticleList = async (req: Request, res:Response, next: NextFunction)=>{
     try{
+        // For dev or debugging
+        const dump = new Debugger();
+        dump.collectHeapInfo();
+
+
         const provider:(()=>Services) = await serviceProvider();
         const service = await provider().article;
         
@@ -15,7 +21,11 @@ const getArticleList = async (req: Request, res:Response, next: NextFunction)=>{
         }
         const result:ArticleConnection = await service.getArticleListPage(req.query);
 
+
         res.status(200).send({success: true, data: result});
+
+        // For dev or debugging
+        dump.collectHeapInfo();
     }catch(e){
         log.error('exception> add : ', e);
         next(e);
@@ -24,6 +34,10 @@ const getArticleList = async (req: Request, res:Response, next: NextFunction)=>{
 
 const addArticle = async (req: Request, res:Response, next: NextFunction)=>{
     try{
+        // For dev or debugging
+        const dump = new Debugger();
+        dump.collectHeapInfo();
+
         const provider:(()=>Services) = await serviceProvider();
         const articleService = await provider().article;
 
@@ -42,6 +56,8 @@ const addArticle = async (req: Request, res:Response, next: NextFunction)=>{
         notifyService?.retrieveKeywork(req.body);
 
         res.status(201).send({success: true, data: result});
+        // For dev or debugging
+        dump.collectHeapInfo();
     }catch(e){
         log.error('exception> add : ', e);
         next(e);
@@ -50,6 +66,10 @@ const addArticle = async (req: Request, res:Response, next: NextFunction)=>{
 
 const updateArticle = async (req: Request, res:Response, next: NextFunction)=>{
     try{
+        // For dev or debugging
+        const dump = new Debugger();
+        dump.collectHeapInfo();
+
         const provider:(()=>Services) = await serviceProvider();
         const service = await provider().article;
 
@@ -60,6 +80,9 @@ const updateArticle = async (req: Request, res:Response, next: NextFunction)=>{
         const statusCode = await service.updateArticle(req.params, req.body);
 
         res.status(statusCode).send({success: true});
+
+        // For dev or debugging
+        dump.collectHeapInfo();
     }catch(e){
         log.error('exception> add : ', e);
         next(e);
@@ -68,6 +91,10 @@ const updateArticle = async (req: Request, res:Response, next: NextFunction)=>{
 
 const deleteArticle = async (req: Request, res:Response, next: NextFunction)=>{
     try{
+        // For dev or debugging
+        const dump = new Debugger();
+        dump.collectHeapInfo();
+
         const provider:(()=>Services) = await serviceProvider();
         const service = await provider().article;
 
@@ -82,6 +109,9 @@ const deleteArticle = async (req: Request, res:Response, next: NextFunction)=>{
         const statusCode = await service.deleteArticle(req.params, req.body);
 
         res.status(statusCode).send({success: true});
+
+        // For dev or debugging
+        dump.collectHeapInfo();
     }catch(e){
         log.error('exception> deleteArticle : ', e);
         next(e);
