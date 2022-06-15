@@ -40,12 +40,12 @@ class CommentService extends ServiceBase{
                 offset = (currentPage - 1) * limit;
             }
             
-            log.info('query info : ', queryInput, offset, limit)
+            // log.info('query info : ', queryInput, offset, limit)
 
             // get data
             const [articleList] = await Promise.all([
                 noticeRepo.getCommentListAndTotalCount(queryInput, offset, limit)]);
-            log.info('Article List : ', JSON.stringify(articleList));
+            // log.info('Article List : ', JSON.stringify(articleList));
 
             // set result
             result.totalCount = articleList.data.length;

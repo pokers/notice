@@ -7,6 +7,9 @@ import { initRoutes } from './route'
 import compression from 'compression'
 import { log } from './lib/logger'
 
+import { Services } from './type'
+import { serviceProvider } from './service/serviceProvider'
+import { SequelizeORM } from './lib/sequelizeORM'
 
 // TODO : Need to update as capsulation all codes.
 
@@ -38,6 +41,14 @@ app.listen(serverCfg.port, () =>{
     log.info("Start server...\n")
 });
 
+process.on('SIGINT', async function() {
+    console.log("Caught interrupt signal");
+    const provider:(()=>Services) = await serviceProvider();
+    await SequelizeORM.getInstance().close();
+    // if(SequelizeORM.getInstance().isConnected()){
+    //     await SequelizeORM.getInstance().close();
+    // }
+    process.exit(0);
+});
+
 export default app;
-
-

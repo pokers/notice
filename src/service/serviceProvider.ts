@@ -11,8 +11,11 @@ import { dbCfg } from '../config'
 /************************************************************** */
 
 const serviceProvider = async ()=>{
-    const sequelize = await (new SequelizeORM()).initialize(dbCfg);
-    const models = (new Models()).initialize(sequelize).associate();
+    // const sequelize = await (new SequelizeORM()).initialize(dbCfg);
+    // const models = (new Models()).initialize(sequelize).associate();
+    const sequelize = await (SequelizeORM.getInstance()).initialize(dbCfg);
+    const models = Models.getInstance().initialize(sequelize).associate();
+    
     
     // TODO : the provider should be also one of the class.
     const buildRpoProvider = ():(()=>{})=>{
@@ -34,7 +37,10 @@ const serviceProvider = async ()=>{
 
         // TODO : The return should not be any, it can be modified multiple types or generic
         return function getService():Services{
-            return services;
+            return {
+                ...services,
+                sequelize
+            }
         }
     }
     const serviceProvider = buildServiceProvider()

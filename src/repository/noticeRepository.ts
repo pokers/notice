@@ -88,7 +88,7 @@ class NoticeRepository {
                     [Op.regexp]: query.username
                 }
             }
-            log.info('where : ', where)
+            // log.info('where : ', where)
 
             const articleModel = this.models.getModel(ModelName.article);
             const result = await articleModel.findAndCountAll({
@@ -178,7 +178,7 @@ class NoticeRepository {
             if(query){
                 where = { ...where, ...query};
             }
-            log.info('where : ', where)
+            // log.info('where : ', where)
 
             const commentModel = this.models.getModel(ModelName.comment);
             const result = await commentModel.findAndCountAll({

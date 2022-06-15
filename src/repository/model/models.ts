@@ -27,15 +27,30 @@ enum Order {
 
 class Models {
     private sequelize:SequelizeORM;
+    private isInitialized:Boolean = false;
+    private isAssociated:Boolean = false;
+    private static instance:Models|null = null;
+
+    public static getInstance(){
+        if(this.instance === null){
+            this.instance = new this();
+        }
+
+        return this.instance;
+    }
+
     constructor(){
     }
 
     initialize(sequelize:SequelizeORM):Models{
         try{
-            this.sequelize = sequelize;
-            ArticleModel.initialize(this.sequelize.getInstance());
-            CommentModel.initialize(this.sequelize.getInstance());
-            KeywordModel.initialize(this.sequelize.getInstance());
+            if(!this.isInitialized){
+                this.isInitialized = true;
+                this.sequelize = sequelize;
+                ArticleModel.initialize(this.sequelize.getInstance());
+                CommentModel.initialize(this.sequelize.getInstance());
+                KeywordModel.initialize(this.sequelize.getInstance());
+            }
             return this;
         }catch(e){
             log.error('exception> initialize :', e);
@@ -45,11 +60,14 @@ class Models {
 
     associate():Models{
         try{
-            ArticleModel.hasMany(CommentModel, { foreignKey: 'articleId', as: 'comment', sourceKey: 'id'});
-            CommentModel.belongsTo(ArticleModel, { foreignKey: 'articleId', targetKey: 'id'});
-
-            CommentModel.hasMany(CommentModel, { foreignKey: 'parentId', as: 'child', sourceKey: 'id'});
-            CommentModel.belongsTo(CommentModel, { foreignKey: 'parentId', as: 'parent', targetKey: 'id'})
+            if(!this.isAssociated){
+                this.isAssociated = true;
+                ArticleModel.hasMany(CommentModel, { foreignKey: 'articleId', as: 'comment', sourceKey: 'id'});
+                CommentModel.belongsTo(ArticleModel, { foreignKey: 'articleId', targetKey: 'id'});
+    
+                CommentModel.hasMany(CommentModel, { foreignKey: 'parentId', as: 'child', sourceKey: 'id'});
+                CommentModel.belongsTo(CommentModel, { foreignKey: 'parentId', as: 'parent', targetKey: 'id'})
+            }
             return this;
         }catch(e){
             log.error('exception> associate : ', e);

@@ -8,7 +8,7 @@ class Debugger {
 
     }
 
-    showHeapStatistics(){
+    async showHeapStatistics(){
         try{
             const heapStatisticsStream = v8.getHeapStatistics();
             log.info('heapStatistics : ', JSON.stringify(heapStatisticsStream));
@@ -18,7 +18,7 @@ class Debugger {
         }
     }
 
-    createHeapSnapshot(){
+    async createHeapSnapshot(){
         try{
             const heapSnapshotStream = v8.getHeapSnapshot();
             const postfix = Date.now();
@@ -32,7 +32,7 @@ class Debugger {
         }
     }
 
-    createHeapDump(){
+    async createHeapDump(){
         try{
             const postfix = Date.now();
             const heapdumpFileName = `hapdump_${postfix}.heapsnapshot`;
@@ -46,9 +46,9 @@ class Debugger {
 
     async collectHeapInfo(){
         try{
-            this.createHeapDump();
-            this.createHeapSnapshot();
-            this.showHeapStatistics();
+            // this.createHeapDump();
+            // this.createHeapSnapshot();
+            // this.showHeapStatistics();
         }catch(e){
             log.error(e);
             throw e;

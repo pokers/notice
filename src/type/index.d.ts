@@ -1,6 +1,7 @@
 import { ArticleModel } from "../repository/model";
 import { NoticeRepository } from '../repository'
 import { ArticleService, CommentService, NotifyService } from "../service"
+import { SequelizeORM } from "../lib/sequelizeORM";
 
 export type Maybe<T> = T | null;
 
@@ -19,6 +20,7 @@ export type Services = {
     article?: ArticleService
     comment?: CommentService
     notify?: NotifyService
+    dbInst?: SequelizeORM
     // add here if there will be a new service
 }
 

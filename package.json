@@ -20,7 +20,7 @@
     "bundle": "rm -rf ./dist/* && ./node_modules/.bin/esbuild ./src/app.ts --platform=node --bundle --outfile=./dist/app.js",
     "build": "rm -rf ./dist/* && ./node_modules/.bin/tsc && e./node_modules/.bin/sbuild ./src/app.ts --platform=node --bundle --outfile=./dist/app.js",
     "start": "node --es-module-specifier-resolution=node ./dist/app.js",
-    "devjs": "./node_modules/.bin/node --report-uncaught-exception --report-on-signal --report-on-fatalerror -- ./dist/app.js",
+    "devjs": "rm -rf ./dist/* && ./node_modules/.bin/tsc && ./node_modules/.bin/node --report-uncaught-exception --report-on-signal --report-on-fatalerror -- ./dist/app.js",
     "inspectjs": "./node_modules/.bin/node --report-uncaught-exception --report-on-signal --report-on-fatalerror --inspect ./dist/app.js"
   },
   "dependencies": {

@@ -10,8 +10,7 @@ const getArticleList = async (req: Request, res:Response, next: NextFunction)=>{
     try{
         // For dev or debugging
         const dump = new Debugger();
-        dump.collectHeapInfo();
-
+        // dump.collectHeapInfo();
 
         const provider:(()=>Services) = await serviceProvider();
         const service = await provider().article;
