@@ -135,7 +135,7 @@ class NoticeRepository {
         try{
             log.info('insert info : ', query);
             const articleModel = this.models.getModel(ModelName.article);
-            const result:ArticleModel = await articleModel.create(query, transaction);
+            const result:ArticleModel = await articleModel.create(query, {transaction: transaction});
             return result;
         }catch(e){
             this.isUniqueConstraintError(e);
@@ -166,8 +166,9 @@ class NoticeRepository {
             const articleModel = this.models.getModel(ModelName.article);
             const result = await articleModel.update(
                 query,{
-                where: {id:articleId}
-            }, transaction);
+                where: {id:articleId},
+                transaction: transaction
+            });
             return result;
         }catch(e){
             log.error('exception> updateArticle : ', e);
@@ -178,7 +179,7 @@ class NoticeRepository {
     async deleteArticle(articleId:number, transaction?:Transaction){
         try{
             const articleModel = this.models.getModel(ModelName.article);
-            const result = await articleModel.destroy({where: {id:articleId}}, transaction);
+            const result = await articleModel.destroy({where: {id:articleId}, transaction: transaction});
             return result;
         }catch(e){
             log.error('exception> updateArticle : ', e);
@@ -234,7 +235,7 @@ class NoticeRepository {
         try{
             log.info('insert info : ', query);
             const commentModel = this.models.getModel(ModelName.comment);
-            const result:CommentModel = await commentModel.create(query, transaction);
+            const result:CommentModel = await commentModel.create(query, {transaction: transaction});
             log.info(result);
             return result;
         }catch(e){
