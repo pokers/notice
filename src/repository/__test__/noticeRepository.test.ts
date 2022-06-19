@@ -421,7 +421,7 @@ describe('Unit test : NoticeRepository ', ()=>{
     /******************************************************************
      * TEST FUNCTION : getArticleListAndTotalCount
      ******************************************************************/
-     test('getArticleListAndTotalCount - Invalid Parameter', async ()=>{
+    test('getArticleListAndTotalCount - Invalid Parameter', async ()=>{
         const models = new Models();
         const inst = new NoticeRepository(models);
         inst.getArticleListAndTotalCount({}, -1, -1).then(result=>expect(result).toThrow(ErrMessage.ErrorInvalidPageInfo));

@@ -11,6 +11,8 @@ import { Services } from './type'
 import { serviceProvider } from './service/serviceProvider'
 import { SequelizeORM } from './lib/sequelizeORM'
 
+var memwatch = require('node-memwatch-new');
+
 // TODO : Need to update as capsulation all codes.
 
 const app:Express = express();
@@ -39,6 +41,10 @@ log.info('Route initialized...');
 
 app.listen(serverCfg.port, () =>{
     log.info("Start server...\n")
+});
+
+memwatch.on('stats', (stats:any)=>{
+    console.log(stats);
 });
 
 process.on('SIGINT', async function() {

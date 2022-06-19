@@ -1,0 +1,12 @@
+config:
+  target: "http://localhost:8080/api/v1"
+  phases:
+    - duration: 1
+      arrivalRate: 10
+      name: article test
+
+scenarios:
+  - name: "article"
+    flow:
+      - get:
+          url: "/article"

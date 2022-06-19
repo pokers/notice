@@ -18,7 +18,8 @@ export enum ErrMessage {
     ErrorInvalidString = 'Invalid String, it might be zero length',
     ErrorExceedStringLength = 'Invalid String, it might be longer string than maxium length',
     ErrorInvalidPageInfo = 'Invalid page number or size.',
-    ErrorNotMatchedArticle = 'Invalid parent comment ID or article ID'
+    ErrorNotMatchedArticle = 'Invalid parent comment ID or article ID',
+    ErrorDuplicatedItem = 'Could not completed due to duplicated item'
 }
 
 export const ErrorNotSupportedParameters = ()=>{
@@ -52,4 +53,7 @@ export const ErrorInvalidPageInfo = ()=>{
 }
 export const ErrorNotMatchedArticle = ()=>{
     return new cError(400, ErrMessage.ErrorNotMatchedArticle);
+}
+export const ErrorDuplicatedItem = ()=>{
+    return new cError(409, ErrMessage.ErrorDuplicatedItem);
 }

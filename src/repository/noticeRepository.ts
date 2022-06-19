@@ -1,13 +1,29 @@
 import { ArticleModel, Models, ModelName, CursorName, Order, CommentModel, Transaction, Op, WhereOptions, KeywordModel } from './model'
 import { log } from '../lib/logger'
 import { QueryInput} from '../type';
-import { ErrorInvalidPageInfo } from '../lib/error'
+import { ErrorInvalidPageInfo, ErrorDuplicatedItem } from '../lib/error'
 
+
+import { BaseError, DatabaseError, UniqueConstraintError } from 'sequelize'
 class NoticeRepository {
     protected models: Models
     constructor(models: Models){
         this.models = models;
     }
+
+    private isUniqueConstraintError(error:any){
+        if(error instanceof UniqueConstraintError){
+            const dupError:any = error.original;
+            log.info('UniqueConstraintError : ', JSON.stringify(dupError.code));
+            if(dupError.code && dupError.code === 'ER_DUP_ENTRY'){
+                log.info('throw cError!')
+                throw ErrorDuplicatedItem();
+            }
+        }
+
+        throw error;
+    }
+
     async getArticleList(query: QueryInput, first?:string, last?:string, after?:string, before?:string):Promise<ArticleModel[]>{
         try{
             const cursor: ArticleModel[CursorName.createdAt] = CursorName.createdAt;
@@ -115,13 +131,14 @@ class NoticeRepository {
         await transaction.rollback();
     }
 
-    async addArticle(query: QueryInput):Promise<ArticleModel>{
+    async addArticle(query: QueryInput, transaction?: Transaction):Promise<ArticleModel>{
         try{
             log.info('insert info : ', query);
             const articleModel = this.models.getModel(ModelName.article);
-            const result:ArticleModel = await articleModel.create(query);
+            const result:ArticleModel = await articleModel.create(query, transaction);
             return result;
         }catch(e){
+            this.isUniqueConstraintError(e);
             log.error('exception> addArticle : ', e);
             throw e;
         }
@@ -143,14 +160,14 @@ class NoticeRepository {
         }
     }
 
-    async updateArticle(articleId:number, query: QueryInput):Promise<ArticleModel|null>{
+    async updateArticle(articleId:number, query: QueryInput, transaction?: Transaction):Promise<ArticleModel|null>{
         try{
             log.info('insert info : ', query);
             const articleModel = this.models.getModel(ModelName.article);
             const result = await articleModel.update(
                 query,{
                 where: {id:articleId}
-            });
+            }, transaction);
             return result;
         }catch(e){
             log.error('exception> updateArticle : ', e);
@@ -158,10 +175,10 @@ class NoticeRepository {
         }
     }
 
-    async deleteArticle(articleId:number){
+    async deleteArticle(articleId:number, transaction?:Transaction){
         try{
             const articleModel = this.models.getModel(ModelName.article);
-            const result = await articleModel.destroy({where: {id:articleId}});
+            const result = await articleModel.destroy({where: {id:articleId}}, transaction);
             return result;
         }catch(e){
             log.error('exception> updateArticle : ', e);
@@ -213,14 +230,15 @@ class NoticeRepository {
         }
     }
 
-    async addComment(query: QueryInput):Promise<CommentModel>{
+    async addComment(query: QueryInput, transaction?: Transaction):Promise<CommentModel>{
         try{
             log.info('insert info : ', query);
             const commentModel = this.models.getModel(ModelName.comment);
-            const result:CommentModel = await commentModel.create(query);
+            const result:CommentModel = await commentModel.create(query, transaction);
             log.info(result);
             return result;
         }catch(e){
+            this.isUniqueConstraintError(e);
             log.error('exception> addComment : ', e);
             throw e;
         }

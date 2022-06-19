@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS article(
     createdAt   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY(id),
+    UNIQUE KEY unique_articld (username, title),
     INDEX username(username),
     INDEX title(title),
     INDEX createdAt(createdAt)
@@ -24,6 +25,7 @@ CREATE TABLE IF NOT EXISTS comment(
     username    VARCHAR(255) CHARACTER SET UTF8MB4 NOT NULL,
     createdAt   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY(id),
+    UNIQUE KEY unique_comment (articleId, parentId, username),
     CONSTRAINT fk_article_comment FOREIGN KEY(articleId) REFERENCES article(id),
     CONSTRAINT fk_article_article FOREIGN KEY(parentId) REFERENCES comment(id),
     INDEX createdAt(createdAt)

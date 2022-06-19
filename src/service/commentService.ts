@@ -111,7 +111,7 @@ class CommentService extends ServiceBase{
             
             transaction = await noticeRepo.startTransaction();
             const [result] = await Promise.all([
-                noticeRepo.addComment(queryInput)]);
+                noticeRepo.addComment(queryInput, transaction)]);
             transaction.commit();
             log.info('add result : ', JSON.stringify(result));
 

@@ -1,7 +1,7 @@
 import { DbCfg, ServerCfg } from "../type"
 
 export const serverCfg:ServerCfg = {
-    port: 8080,
+    port: 8081,
     host: 'http://localhost'
 }
 

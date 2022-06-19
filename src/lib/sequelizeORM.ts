@@ -1,5 +1,5 @@
 import { log } from './logger';
-import { Sequelize, Transaction, Op, WhereOptions, Model, DataTypes } from 'sequelize'
+import { Sequelize, Transaction, Op, WhereOptions, Model, DataTypes,BaseError } from 'sequelize'
 import mysql2 from 'mysql2'
 import { DbCfg } from '../type'
 
@@ -79,6 +79,6 @@ class SequelizeORM {
     }
 }
 
-export { SequelizeORM, Transaction, Op, WhereOptions, Model, DataTypes, Sequelize };
+export { SequelizeORM, Transaction, Op, WhereOptions, Model, DataTypes, Sequelize, BaseError };
 
 

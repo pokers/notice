@@ -179,7 +179,7 @@ class ArticleService extends ServiceBase {
             // get data
             transaction = await noticeRepo.startTransaction();
             const [result] = await Promise.all([
-                noticeRepo.addArticle(queryInput)]);
+                noticeRepo.addArticle(queryInput, transaction)]);
             transaction.commit();
             log.info('add result : ', JSON.stringify(result));
 
@@ -223,7 +223,7 @@ class ArticleService extends ServiceBase {
             }
             transaction = await noticeRepo.startTransaction();
             const [result] = await Promise.all([
-                noticeRepo.updateArticle(articleId, queryInput)]);
+                noticeRepo.updateArticle(articleId, queryInput, transaction)]);
             transaction.commit();
             log.info('update result : ', result);
 
@@ -264,7 +264,7 @@ class ArticleService extends ServiceBase {
             }
             transaction = await noticeRepo.startTransaction();
             const [result] = await Promise.all([
-                noticeRepo.deleteArticle(articleId)]);
+                noticeRepo.deleteArticle(articleId, transaction)]);
             transaction.commit();
             log.info('update result : ', result);
 
