@@ -25,27 +25,6 @@ const getArticleList = async (req: Request, res:Response, next: NextFunction)=>{
 
         // For dev or debugging
         dump.collectHeapInfo();
-        // const doJob = async ()=>{
-        //    // For dev or debugging
-        //     const dump = new Debugger();
-        //     // dump.collectHeapInfo();
-
-        //     const provider:(()=>Services) = await serviceProvider();
-        //     const service = await provider().article;
-            
-        //     if(service === undefined){
-        //         throw new cError(500, STATUS_CODES[500]);
-        //     }
-        //     const result:ArticleConnection = await service.getArticleListPage(req.query);
-
-
-        //     res.status(200).send({success: true, data: result});
-
-        //     // For dev or debugging
-        //     dump.collectHeapInfo(); 
-        // }
-
-        // doJob();
     }catch(e){
         log.error('exception> add : ', e);
         next(e);
